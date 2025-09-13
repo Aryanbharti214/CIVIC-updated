@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Official Civic Portal for reporting local issues. A Government of India initiative.">
+    <title>Civic Portal | Government of India</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <header>
+        <div class="logo-container">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI4MiIgdmlld0JveD0iMCAwIDUwIDgyIj48ZyBmaWxsPSIjMGQ0N2ExIj48cGF0aCBkPSJNMjUgMGMtNSAwLTkgMy0xMSA3LTQgNS0yIDgtMiAxMCAyIDMgNSA2IDExIDYgNiAwIDktMyAxMS02IDItMiAyLTUgMC0xMC0yLTQtNi03LTExLTd6bTAgMmM0IDAgNyAzIDkgNnMyIDYgMCA4LTMgNS05IDVzLTctMi05LTVjMC0yLTMtNi0xLThzNS02IDktNnoiLz48cGF0aCBkPSJNMwozNGMxLTIgMy0zIDUtMyAyIDAgMyAxIDQgMmwxIDRjMCAxLTEgNC0xIDYtMSAwLTEtMS0yLTItMSAwLTIgMC0yIDItMiAzLTUgNC03IDQtMyAwLTUtMi01LTUgMC0zIDItNSA0LTZ6bTQ0IDBjMS0yIDMtMyA1LTMgMiAwIDMgMSA0IDJsMSA0YzAgMS0xIDQtMSA2LTEgMC0xLTEtMi0yLTEgMC0yIDAtMiAyLTIgMy01IDQtNyA0LTMgMC01LTItNS01IDAtMyAyLTUgNC02eiIvPjxwYXRoIGQ9Ik0yNSAzM2MtNCAwLTcgMy03IDYgMCAxIDAgMyAyIDYgMSAyIDIgMyAyIDYgMCAyIDAgMy0xIDQgMCAxIDAgMSA1IDIxIDUgMy05IDMgOC0zIDQtNS00LTggMC0yIDAtMy0xLTQgMC0zLTEtNC0yLTYtMi0zLTUtNy03LTZ6bTAgMmMzIDAgNSAyIDUgNGMwIDEtMS0yLTEtNC0xLTEtMS0xLTItMi0xLTEtMS0xLTItMi0xLTItMS0zLTEtNS0xLTEgMC0yIDIgMiAyIDAgMC0xIDAtMiAxLTEgMSAwIDIgMS0yeiIvPjxwYXRoIGQ9Ik0yNSA1OWMtNiAwLTkgMi05IDYgMCAzIDIgNiA5IDYgNiAwIDktMyA5LTYgMC00LTMtNi05LTZ6bTAgMmM0IDAgNyAyIDcgNCAwIDItMSA0LTcgNC02IDAtNy0yLTctNCAwLTIgMy00IDctNHoiLz48cGF0aCBkPSJNMTEgNzRjMC0xIDAtMS0xLTItMy02LTMtMTAgMC0xMyAzLTMgNy0zIDExIDAgNC0zIDgtNiAxMy0zIDQgMCA4IDIgMTEgMyAzIDMgNiA3IDYgMTAtNC0zLTgtNS0xMy01aC0xYy01IDAtOS0yLTEzIDV6Ii8+PHBhdGggZD0iTTI1IDc4YzEgMCAxIDAgMiAwIDAgMCAxIDAgMS0xIDItMiAxLTQgMSA1LTAtMS0xLTIgMC0yLTItMS0xLTEtMi0yLTJ6Ii8+PC9nPjwvc3ZnPg==" alt="Emblem of India" class="emblem" />
+            <div class="title-container">
+                <h1><span data-lang="portalTitle">Civic Portal</span></h1>
+                <p>Government of India</p>
+            </div>
+        </div>
+
+        <div class="header-right-controls">
+            <div style="max-width: 150px;">
+                <select id="languageSelector" onchange="setLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="mr">मराठी</option>
+                    <option value="or">ଓଡ଼ିଆ</option>
+                    <option value="ur">اردو</option>
+                </select>
+            </div>
+            <button id="themeToggle" class="btn" onclick="toggleTheme()" aria-label="Toggle dark/light theme" style="width: auto; margin-top: 0;">☀️</button>
+            <img src="https://www.nicepng.com/png/detail/933-9333810_ashok-stambh-logo-hd.png" alt="Ashoka Stambha" class="header-ashoka-emblem" />
+        </div>
+    </header>
+    <div id="statusMessage" class="status-message hidden" role="status"></div>
+    <main id="main-content">
+        <div id="page0" class="card">
+            <h2 data-lang="roleQuestion"> Who are you?</h2>
+            <p class="small" data-lang="roleInstruction">Choose role to continue</p>
+            <div style="display:flex;gap:12px;margin-top:16px">
+                <button class="btn" onclick="gotoPage('userLogin')" data-lang="userButton">I am a User</button>
+                <button class="btn" onclick="gotoPage('adminLogin')" data-lang="adminButton">I am an Admin</button>
+            </div>
+        </div>
+
+        <div id="userLogin" class="card hidden">
+            <h2 data-lang="userLoginTitle"> Sign in with Google</h2>
+            <div id="g_id_onload"
+                data-client_id="782947697190-jns027rf16apuo1l05uu3fq69i0lmbfr.apps.googleusercontent.com"
+                data-callback="handleCredentialResponse">
+            </div>
+            <div class="g_id_signin" data-type="standard"></div>
+            <p class="small" data-lang="userLoginInstruction">After signing in you'll be taken to the user portal</p>
+            <p class="small"><a href="#" onclick="gotoPage('page0')" data-lang="backButton">← Back</a></p>
+        </div>
+
+        <div id="adminLogin" class="card hidden">
+            <h2 data-lang="adminLoginTitle"> Admin Login</h2>
+            <input id="adminId" placeholder="Admin ID " data-lang-placeholder="adminIdPlaceholder">
+            <div class="password-container">
+                <input id="adminPass" placeholder="Password " type="password" data-lang-placeholder="adminPassPlaceholder">
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">👁</button>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:12px">
+                <button class="btn" onclick="adminLogin()" data-lang="loginButton">Login</button>
+                <button class="btn" onclick="gotoPage('page0')" style="background-color:#6c757d;" data-lang="cancelButton">Cancel</button>
+            </div>
+            <p id="adminError" class="error hidden" data-lang="adminLoginError"> Incorrect ID or Password</p>
+        </div>
+
+        <div id="page3" class="card hidden">
+            <h2 data-lang="reportIssueTitle"> Report an Issue</h2>
+            <button id="voiceInputBtn" type="button" class="btn" onclick="toggleVoiceRecognition()" style="width: auto; margin-bottom: 5px;">🎤 Start Voice Input</button>
+            <p id="voiceStatus" class="small" style="margin: 0 0 10px 5px;"></p>
+            <textarea id="issueDesc" placeholder="Describe the issue..." rows="3" data-lang-placeholder="issueDescPlaceholder" onblur="autoCategorizeIssue()"></textarea>
+            <select id="issueCat">
+                <option value="" data-lang="selectCategoryPlaceholder">Select category</option>
+                <option value="Electricity" data-lang="catElectricity">Electricity</option>
+                <option value="Water" data-lang="catWater">Water</option>
+                <option value="Streetlight" data-lang="catStreetlight">Streetlight</option>
+                <option value="Road" data-lang="catRoad">Road</option>
+                <option value="Sanitation" data-lang="catSanitation">Sanitation</option>
+            </select>
+
+            
+            <div style="margin-top:12px">
+                <label class="small" for="locationSearch">Find location by address</label>
+                <input id="locationSearch" placeholder="Search for a location..." type="text">
+                <button class="btn" onclick="searchLocation()" style="margin-top:0; width: auto;" data-lang="searchLocationBtn">Search</button>
+                <label class="small" data-lang="locationLabel">Problem location</label>
+                <input id="locationTxt" placeholder="Pin on the map to enter location" data-lang-placeholder="locationPlaceholder" readonly>
+                <div id="map-picker" class="map-container"></div>
+            </div>
+
+            <div style="margin-top:12px">
+                <label class="small" data-lang="imageLabel"> Image (upload or capture)</label>
+                <div class="upload-row">
+                    <input id="imgUpload" type="file" accept="image/*" capture="environment">
+                    <button class="btn" id="startCamBtn" type="button" data-lang="startCamBtn">Start Camera</button>
+                    <button class="btn btn-danger hidden" id="removeImgBtn" type="button" data-lang="removeImageBtn">Remove Image</button>
+                </div>
+                <video id="imgVideo" class="hidden preview" autoplay playsinline style="max-height:300px"></video>
+                <div class="controls hidden" id="imgCamControls">
+                    <button class="btn" id="takePhotoBtn" type="button" data-lang="takePhotoBtn">Take Photo</button>
+                    <button class="btn" id="stopCamBtn" type="button" data-lang="stopCamBtn">Stop Camera</button>
+                </div>
+                <canvas id="imgCanvas" class="hidden"></canvas>
+                <img id="imgPreview" class="hidden preview" alt="image preview">
+            </div>
+
+            <div style="margin-top:14px">
+                <label class="small" data-lang="videoLabel"> Video (upload or record)</label>
+                <div class="upload-row">
+                    <input id="vidUpload" type="file" accept="video/*" capture="camcorder">
+                    <button class="btn" id="startVidRec" type="button" data-lang="startVidRec">Start Recording</button>
+                    <button class="btn hidden" id="stopVidRec" type="button" data-lang="stopVidRec">Stop Recording</button>
+                    <button class="btn btn-danger hidden" id="removeVidBtn" type="button" data-lang="removeVidBtn">Remove Video</button>
+                </div>
+                <video id="vidPreview" class="hidden preview" controls style="max-height:300px"></video>
+            </div>
+
+            <div style="margin-top:14px">
+                <label class="small" data-lang="audioLabel"> Audio (upload or record)</label>
+                <div class="upload-row">
+                    <input id="audUpload" type="file" accept="audio/*" capture="microphone">
+                    <button class="btn" id="startAudRec" type="button" data-lang="startAudRec">Start Recording</button>
+                    <button class="btn hidden" id="stopAudRec" type="button" data-lang="stopAudRec">Stop Recording</button>
+                    <button class="btn btn-danger hidden" id="removeAudBtn" type="button" data-lang="removeAudBtn">Remove Audio</button>
+                </div>
+                <audio id="audPreview" class="hidden preview" controls></audio>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:16px">
+                <button class="btn" onclick="submitReport()" data-lang="submitReportBtn">Submit Report</button>
+                <button class="btn" onclick="logoutUser()" style="background-color:#6c757d;" data-lang="logoutBtn">Logout</button>
+            </div>
+            <h3 style="margin-top:24px; border-top: 1px solid #e9ecef; padding-top: 16px;" data-lang="myReportsTitle"> My Reports</h3>
+            <div style="display: flex; gap: 10px; margin-top: 10px; align-items: center;">
+                <label for="sortUserReports">Sort by:</label>
+                <select id="sortUserReports" onchange="renderUserReports()">
+                    <option value="dateDesc">Newest</option>
+                    <option value="dateAsc">Oldest</option>
+                    <option value="status">Status</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+            <div id="userReports" class="reports-list"></div>
+        </div>
+
+        <div id="page4" class="card hidden">
+            <h2 data-lang="adminDashboardTitle"> Admin Dashboard</h2>
+            <div style="display: flex; gap: 10px; margin-top: 10px; align-items: center;">
+                <label for="sortAdminReports">Sort by:</label>
+                <select id="sortAdminReports" onchange="renderAllReports()">
+                    <option value="priority">Priority</option>
+                    <option value="dateDesc">Newest</option>
+                    <option value="status">Status</option>
+                    <option value="category">Category</option>
+                </select>
+                <label for="filterAdminReports">Filter by:</label>
+                <select id="filterAdminReports" onchange="renderAllReports()">
+                    <option value="all">All</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+                <button class="btn" onclick="speakReportSummary()" style="width: auto; margin-top:0;">🔊 Read Summary</button>
+                <button class="btn btn-danger" onclick="stopSpeaking()" style="width: auto; margin-top:0;">🛑 Stop</button>
+            </div>
+            <div id="allReports" class="reports-list"></div>
+            <h3 style="margin-top:24px; border-top: 1px solid #e9ecef; padding-top: 16px;" data-lang="analyticsTitle"> Analytics</h3>
+            <canvas id="statusChart" style="margin-top:8px"></canvas>
+            <div style="margin-top:12px">
+                <button class="btn" onclick="gotoPage('page0')" style="background-color:#6c757d;" data-lang="backToRoleBtn">Back to Role Select</button>
+            </div>
+        </div>
+    </main>
+    <div class="footer-column">
+        </div>
+    <div id="quickLinkModal" class="modal-overlay" onclick="closeQuickLinkModal()">
+        <div class="modal-content" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close-btn" onclick="closeQuickLinkModal()" aria-label="Close dialog">&times;</button>
+            <h2 id="modalTitle"></h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="showQuickLinkModal('about')">About Us</a></li>
+                    <li><a href="javascript:void(0);" onclick="showQuickLinkModal('policies')">Website Policies</a></li>
+                    <li><a href="javascript:void(0);" onclick="showQuickLinkModal('help')">Help</a></li>
+                    <li><a href="javascript:void(0);" onclick="showQuickLinkModal('contact')">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="https://www.mygov.in" target="_blank" rel="noopener noreferrer">MyGov</a></li>
+                    <li><a href="https://pgportal.gov.in" target="_blank" rel="noopener noreferrer">CPGRAMS</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <p>Office of Civic Affairs<br>Patna, Bihar, India<br>Email: <a href="mailto:contact@civicportal.gov.in">contact@civicportal.gov.in</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>This website is designed, developed and maintained by National Informatics Centre (NIC).</p>
+            <div class="footer-logos">
+                <a href="https://www.digitalindia.gov.in" target="_blank" rel="noopener noreferrer"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMzguMyA5My40Ij48cGF0aCBmaWxsPSIjRjY4QjFGIiBkPSJNMCAwaDMzOC4z insensibleIMzguM3oiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMzguMSA3My40aDQuN3Y5LjZoLTQuN3ptNiA5LjloLjctLjVjMC0xLS4zLTItLjYtMi41LS40LS41LTEtLjctMi0uNy0uNyAwLTEuMy4zLTItLjgxLTEgMC0uNiAxLjQtLjYgMi40djEwLjNoLTQuN3YtMjUuMWg0Ljd2MS4zYzEtMS4xIDEuNC0xLjYgMi43LTEuNiAxLjYgMCAyLjguNiAzLjcgMi4xIDEgMS4zIDEuNiAzIDEuNiA1LjR2OS42em05LjEtOS45bC0xMi45IDguNyA2LjUtOS45aDQuOGwtNS4yIDguNiA1LjUgMTEuNGgtNS4xbC0zLjQtNy45LTMuNiA3LjloLTUuMWw3LjEtMTIuOHpNMzYuOSA5My40aDQuN3YtNDAuMmg0LjdsMjMuNCAzMC4zaC03LjlsLTE2LjktMjUuMyAyNC45LTI3LjdoLTQuN3Y0MC4yaC00Ljd2LTMwLjJoLTIzLjQtMzAuM2g3LjlsMTYuOSAyNS4zLTI0LjkgMjcuN3ptNDIgMS44aDUuM2w1LjgtMTEuNSA1LjggMTEuNWg1LjNsLTguMy0xNS4xIDguNC0xNS45aC01LjNsLTUuNiAxMC41LTUuNy0xMC41aC01LjNsOC4yIDE1LjktOC4zIDE1LjF6bTI3LjctNi4yYzAtMS0uMy0yLjItLjgtMy0uNS0xLTEuMy0xLjgtMi41LTIuNy0xLjEtMS0yLjItMS4xLTMuNS0xLjEtMS40IDAtMi42LjQtMy41IDEuMS0xLjEtMS0xLjgtMi41LTIuNy0xLjYtMS0uOC0xLjEtMi4yLTEuMS0zLjRzLjMtMi4yLjgxLTMuNGMuNS0xIDEuMy0xLjggMi41LTIuNyAxLjEtMSAyLjItMS4xIDMuNS0xLjEgMS40IDAgMi42LjQgMy41IDEuMSAxIC44IDEuNyAyLjEgMS43IDMuNnptLTQuMy0uMmMwLTIuMy0uMi0zLjktLjctNC44LS41LS45LTEuMi0xLjYtMi0xLjYtLjggMC0xLjUuNy0yIDEuNi0uNS45LS43IDIuNS0uNyA0LjggMCAyLjMuMiAzLjkuNyA0LjhzMS4yIDEuNiAyIDEuNmMuOCAwIDEuNS0uNyAyLTEuNi41LS45LjctMi41LjctNC44em0xNi45IDYuMnYtMjUuMWg0Lj and vMjUuMWgtNC4ym03LjItNS4zdjguOGg0LjR2LTI1LjFoLTQuNFY3NmgtNC44bC04LTEzLjZ2LTEyLjloNC43djEzaDQuNnoiLz48L3N2Zz4=" alt="Digital India Logo"></a>
+                <a href="https://www.nic.in" target="_blank" rel="noopener noreferrer"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTguMSAzMi45Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTIwLjMgMzAuNGg5LjZWMTAuM2gtOS42djIwLjF6TTM2LjUgMjQuOWMwIDUuMi00IDkuMy04LjcgOS4zLTQuOSAwLTguNy00LjEtOC43LTkuM1Y2LjljMC01LjIgNC05LjMgOC43LTkuMyA0LjkgMCA4LjcgNC4xIDguNyA5LjN2MTh6bS0yNi42IDUuNWg5LjZWMTAuM2gtOS42djIwLjF6TTk4LjggMTguMWwtMS43LTQuOGMtLjEtLjMtLjEtLjUtLjEtLjdoLS4xYzAtLjEtLjEtLjMtLjEtLjVsLTYuOC0xNy4JIMzcuNFYxMGg5LjZWMi41aDEwLjF2Ny41aDkuNnYyMC4xaC05LjZ2LTguM2gtMTAuMXY4LjNoLTkuNnYtMjAuMWg5LjZ2Ny41aDEwLjFWMi41aDQuNVYxMGg5LjZWMi41aDkuN3Y3LjVoOS42VjMwLjRoLTkuNnYtNy41aC05LjZWMzAuNEgzNi41VjEwLjNoOS42VjIuNWgxMC4xdjcuNWg5LjZ2MjAuMWgtOS42di03LjVoLTEwLjF2Ny41aC05LjZ2LTIwLjFoOS42djguM2gxMC4xVjIuNWg5LjZWMTAuMGg5LjZWMzAuNGgtOS42di04LjNoLTEwLjF2OC4zaC05LjZWMTAuM2g5LjZWMi41aDkuOHY3LjVoOS42djIwLjFoLTkuNnYtNy41aC05Ljd2Ny41aC05LjZWMTAuM2g5LjZ2Ny41aDEwLjFWMi41aDEyLjJsOC42IDIxLjloLS4xbC0uMi0uMi0uMS4xLTMuOSAxMS4yaC05Ljd6Ii8+PC9zdmc+" alt="NIC Logo"></a>
+            </div>
+            <p id="lastUpdated" style="margin-top: 10px;">Page last updated on: </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
